@@ -67,12 +67,8 @@ p{
 }
 
 @keyframes pop{
-    from{
-        transform:scale(1);
-    }
-    to{
-        transform:scale(1.04);
-    }
+    from{transform:scale(1);}
+    to{transform:scale(1.04);}
 }
 </style>
 </head>
@@ -84,42 +80,32 @@ p{
 <p>
 你不只是我的女朋友，<br>
 还是我每天都想宠的小朋友。
-</p >
+</p>
 
-<button id="btn">
-抓住我
-</button>
+<button id="btn">抓住我</button>
 
 <div id="final">
-
     <h2>🎉 六一儿童节快乐！🎉</h2>
 
-    <p>
-        抓到啦！奖励你永远做我的小朋友 💖
-    </p >
+    <p>抓到啦！奖励你永远做我的小朋友 💖</p>
 
-<img id="photo" src="IMG_20241027_140815.jpg">
+    <img id="photo" src="IMG_20241027_140815.jpg">
 
     <p>
         祝你今天开心，<br>
         也祝我们以后每天都开心 ✨
-    </p >
-
+    </p>
 </div>
 
 <script>
-
 const btn = document.getElementById("btn");
 const final = document.getElementById("final");
 
 function moveButton(){
-
     const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-
     const y = Math.random() * (window.innerHeight - btn.offsetHeight);
 
     btn.style.left = x + "px";
-
     btn.style.top = y + "px";
 }
 
@@ -128,16 +114,11 @@ moveButton();
 let timer = setInterval(moveButton, 1000);
 
 btn.onclick = function(){
-
     clearInterval(timer);
-
     btn.style.display = "none";
-
     final.style.display = "block";
-
     document.body.style.background = "#fff0f7";
 };
-
 </script>
 
 </body>
