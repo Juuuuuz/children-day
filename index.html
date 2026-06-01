@@ -9,25 +9,20 @@ body{
     margin:0;
     height:100vh;
     overflow:hidden;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
     background:#ffe6f2;
-    font-family:"Microsoft YaHei";
+    font-family:"Microsoft YaHei", sans-serif;
+    text-align:center;
 }
 
 h1{
+    margin-top:80px;
     color:#ff4d94;
     font-size:42px;
-    margin-bottom:20px;
-    text-align:center;
 }
 
 p{
     font-size:22px;
     color:#555;
-    margin-bottom:40px;
 }
 
 #btn{
@@ -39,11 +34,13 @@ p{
     color:white;
     font-size:22px;
     cursor:pointer;
-    transition:.15s;
+    transition:.25s;
+    box-shadow:0 8px 18px #ff9acb;
 }
 
 #final{
     display:none;
+    margin-top:60px;
     font-size:34px;
     color:#ff1493;
     animation:pop .5s infinite alternate;
@@ -63,11 +60,9 @@ p{
 <p>
 你不只是我的女朋友，<br>
 还是我每天都想宠的小朋友。
-</p>
+</p >
 
-<button id="btn">
-抓住我就祝你六一快乐
-</button>
+<button id="btn">抓住我</button>
 
 <div id="final">
 🎉 六一儿童节快乐！🎉
@@ -76,35 +71,27 @@ p{
 </div>
 
 <script>
-
 const btn = document.getElementById("btn");
 const final = document.getElementById("final");
 
-let count = 0;
+let timer = setInterval(moveButton, 800);
 
-btn.addEventListener("mouseover", () => {
+function moveButton(){
+    const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+    const y = Math.random() * (window.innerHeight - btn.offsetHeight);
 
-    if(count < 6){
+    btn.style.left = x + "px";
+    btn.style.top = y + "px";
+}
 
-        const x = Math.random() * (window.innerWidth - 200);
-        const y = Math.random() * (window.innerHeight - 100);
+btn.onclick = function(){
+    clearInterval(timer);
+    btn.style.display = "none";
+    final.style.display = "block";
+    document.body.style.background = "#fff0f7";
+};
 
-        btn.style.left = x + "px";
-        btn.style.top = y + "px";
-
-        count++;
-    }
-});
-
-btn.addEventListener("click", () => {
-
-    if(count >= 6){
-        btn.style.display = "none";
-        final.style.display = "block";
-        document.body.style.background = "#fff0f7";
-    }
-});
-
+moveButton();
 </script>
 
 </body>
