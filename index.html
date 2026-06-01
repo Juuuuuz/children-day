@@ -12,10 +12,11 @@ body{
     background:#ffe6f2;
     font-family:"Microsoft YaHei", sans-serif;
     text-align:center;
+    transition:0.5s;
 }
 
 h1{
-    margin-top:80px;
+    margin-top:70px;
     color:#ff4d94;
     font-size:42px;
 }
@@ -23,6 +24,7 @@ h1{
 p{
     font-size:22px;
     color:#555;
+    line-height:1.8;
 }
 
 #btn{
@@ -34,21 +36,43 @@ p{
     color:white;
     font-size:22px;
     cursor:pointer;
-    transition:.25s;
+    transition:.2s;
     box-shadow:0 8px 18px #ff9acb;
 }
 
 #final{
     display:none;
-    margin-top:60px;
-    font-size:34px;
+    margin-top:20px;
     color:#ff1493;
     animation:pop .5s infinite alternate;
 }
 
+#final h2{
+    font-size:34px;
+    margin:10px;
+}
+
+#final p{
+    font-size:22px;
+    margin:8px;
+}
+
+#photo{
+    width:280px;
+    max-width:82vw;
+    border-radius:24px;
+    margin-top:20px;
+    box-shadow:0 12px 28px rgba(255,105,180,.35);
+    transform:rotate(-2deg);
+}
+
 @keyframes pop{
-    from{transform:scale(1)}
-    to{transform:scale(1.08)}
+    from{
+        transform:scale(1);
+    }
+    to{
+        transform:scale(1.04);
+    }
 }
 </style>
 </head>
@@ -62,36 +86,58 @@ p{
 还是我每天都想宠的小朋友。
 </p >
 
-<button id="btn">抓住我</button>
+<button id="btn">
+抓住我
+</button>
 
 <div id="final">
-🎉 六一儿童节快乐！🎉
-<br><br>
-永远做我的小朋友 💖
+
+    <h2>🎉 六一儿童节快乐！🎉</h2>
+
+    <p>
+        抓到啦！奖励你永远做我的小朋友 💖
+    </p >
+
+    < img id="photo" src="IMG_20241027_140815.jpg">
+
+    <p>
+        祝你今天开心，<br>
+        也祝我们以后每天都开心 ✨
+    </p >
+
 </div>
 
 <script>
+
 const btn = document.getElementById("btn");
 const final = document.getElementById("final");
 
-let timer = setInterval(moveButton, 600);
-
 function moveButton(){
+
     const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+
     const y = Math.random() * (window.innerHeight - btn.offsetHeight);
 
     btn.style.left = x + "px";
+
     btn.style.top = y + "px";
 }
 
+moveButton();
+
+let timer = setInterval(moveButton, 1000);
+
 btn.onclick = function(){
+
     clearInterval(timer);
+
     btn.style.display = "none";
+
     final.style.display = "block";
+
     document.body.style.background = "#fff0f7";
 };
 
-moveButton();
 </script>
 
 </body>
