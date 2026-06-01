@@ -1,143 +1,125 @@
+那给你一个更“轻松小彩蛋”的版本。
+打开网页后：
+
+* 只有一句话
+* 一个按钮
+* 按了以后按钮会疯狂逃跑
+* 最后抓到按钮，会弹出“六一快乐”
+
+这种很适合情侣之间的小搞怪，而且不累。
+
+保存成 `index.html` 即可：
+
+```html
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<title>李思雨小朋友的六一快乐</title>
+<title>李思雨小朋友</title>
+
 <style>
 body{
-  margin:0;height:100vh;overflow:hidden;text-align:center;
-  font-family:"Microsoft YaHei",sans-serif;
-  background:linear-gradient(135deg,#ffd6e8,#d7f7ff);
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:#ffe6f2;
+    font-family:"Microsoft YaHei";
 }
-h1{margin-top:45px;font-size:44px;color:#ff4f9a;animation:bounce 1s infinite alternate}
-.msg{font-size:25px;color:#444;margin:18px 20px;min-height:40px}
-.bear{font-size:110px;animation:dance .7s infinite alternate}
-button{
-  margin:8px;padding:13px 24px;font-size:19px;border:0;border-radius:30px;
-  background:#ff69b4;color:white;cursor:pointer;box-shadow:0 6px 15px #ff9acb;
+
+h1{
+    color:#ff4d94;
+    font-size:42px;
+    margin-bottom:20px;
+    text-align:center;
 }
-button:hover{transform:scale(1.08)}
-.gift,.bubble,.bad{
-  position:absolute;font-size:32px;cursor:pointer;user-select:none;
-  animation:fly 6s linear forwards;
+
+p{
+    font-size:22px;
+    color:#555;
+    margin-bottom:40px;
 }
-.bad{animation:none}
-.score{font-size:20px;color:#666}
-.final{
-  display:none;position:fixed;inset:0;background:rgba(255,240,248,.95);
-  align-items:center;justify-content:center;flex-direction:column;z-index:9;
+
+#btn{
+    position:absolute;
+    padding:16px 30px;
+    border:none;
+    border-radius:40px;
+    background:#ff69b4;
+    color:white;
+    font-size:22px;
+    cursor:pointer;
+    transition:.15s;
 }
-.final h2{font-size:44px;color:#ff4f9a}
-.final p{font-size:24px}
-@keyframes bounce{to{transform:translateY(-15px)}}
-@keyframes dance{from{transform:rotate(-10deg)}to{transform:rotate(10deg) scale(1.08)}}
-@keyframes fly{from{bottom:-50px;opacity:1}to{bottom:105vh;opacity:0;transform:rotate(360deg)}}
+
+#final{
+    display:none;
+    font-size:34px;
+    color:#ff1493;
+    animation:pop .5s infinite alternate;
+}
+
+@keyframes pop{
+    from{transform:scale(1)}
+    to{transform:scale(1.08)}
+}
 </style>
 </head>
+
 <body>
 
-<h1>🎈 李思雨小朋友 六一快乐 🎈</h1>
-<div class="msg" id="msg">你不只是我的女朋友，还是我每天都想宠的小朋友！</div>
-<div class="bear" id="bear">🧸</div>
+<h1>李思雨小朋友 🎈</h1>
 
-<div class="score">甜蜜值：<span id="score">0</span> / 10</div>
+<p>
+你不只是我的女朋友，<br>
+还是我每天都想宠的小朋友。
+</p>
 
-<button onclick="draw()">抽一个儿童节特权</button>
-<button onclick="spawnGift()">点礼物加甜蜜值</button>
-<button onclick="startBad()">开启搞怪挑战</button>
+<button id="btn">
+抓住我就祝你六一快乐
+</button>
 
-<div class="final" id="final">
-  <h2>💖 彩蛋触发成功 💖</h2>
-  <p>李思雨小朋友，恭喜你获得：</p>
-  <p>“长期被宠、无限撒娇、永久可爱”特权！</p>
-  <button onclick="location.reload()">再玩一次</button>
+<div id="final">
+🎉 六一儿童节快乐！🎉
+<br><br>
+永远做我的小朋友 💖
 </div>
 
 <script>
-let score = 0;
-let badTimer = null;
 
-const msg = document.getElementById("msg");
-const bear = document.getElementById("bear");
-const scoreBox = document.getElementById("score");
+const btn = document.getElementById("btn");
+const final = document.getElementById("final");
 
-const prizes = [
-  "今日特权：可以无理取闹一次，我负责哄！",
-  "隐藏奖励：亲亲抱抱举高高三件套！",
-  "专属BUFF：奶茶免胖，零食无罪！",
-  "今日任务：什么都不用干，只负责可爱！",
-  "系统认证：李思雨是我的限定版小朋友！",
-  "警告：你再可爱下去，我要报警抓回家了！"
-];
+let count = 0;
 
-const emojis = ["🍭","🎈","🧸","🍬","🌈","💖","⭐","🐰","🍓"];
+btn.addEventListener("mouseover", () => {
 
-function addScore(n){
-  score += n;
-  if(score < 0) score = 0;
-  scoreBox.innerText = score;
-  if(score >= 10){
-    document.getElementById("final").style.display = "flex";
-  }
-}
+    if(count < 6){
 
-function draw(){
-  msg.innerText = prizes[Math.floor(Math.random() * prizes.length)];
-  bear.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-  addScore(1);
-  for(let i=0;i<8;i++) createBubble();
-}
+        const x = Math.random() * (window.innerWidth - 200);
+        const y = Math.random() * (window.innerHeight - 100);
 
-function spawnGift(){
-  const g = document.createElement("div");
-  g.className = "gift";
-  g.innerText = "🎁";
-  g.style.left = Math.random()*85 + "vw";
-  g.style.top = Math.random()*70 + 15 + "vh";
-  g.onclick = () => {
-    g.remove();
-    msg.innerText = "李思雨成功拆开礼物：获得男朋友贴贴券一张！";
-    addScore(2);
-    for(let i=0;i<10;i++) createBubble();
-  };
-  document.body.appendChild(g);
-  setTimeout(()=>g.remove(),3000);
-}
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
 
-function startBad(){
-  msg.innerText = "搞怪挑战：快躲开“变胖警告”！点到会扣甜蜜值哦～";
-  if(badTimer) clearInterval(badTimer);
-  badTimer = setInterval(spawnBad, 900);
-  setTimeout(()=>clearInterval(badTimer), 12000);
-}
+        count++;
+    }
+});
 
-function spawnBad(){
-  const b = document.createElement("div");
-  b.className = "bad";
-  b.innerText = "变胖警告🍰";
-  b.style.left = Math.random()*80 + "vw";
-  b.style.top = Math.random()*75 + "vh";
-  b.onclick = () => {
-    b.remove();
-    msg.innerText = "哈哈哈抓到小馋猫！但是没关系，我还是宠你。";
-    addScore(-1);
-  };
-  document.body.appendChild(b);
-  setTimeout(()=>b.remove(),1600);
-}
+btn.addEventListener("click", () => {
 
-function createBubble(){
-  const b = document.createElement("div");
-  b.className = "bubble";
-  b.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-  b.style.left = Math.random()*100 + "vw";
-  b.style.animationDuration = 3 + Math.random()*3 + "s";
-  document.body.appendChild(b);
-  setTimeout(()=>b.remove(),6000);
-}
+    if(count >= 6){
+        btn.style.display = "none";
+        final.style.display = "block";
+        document.body.style.background = "#fff0f7";
+    }
+});
 
-setInterval(createBubble,700);
 </script>
 
 </body>
 </html>
+```
